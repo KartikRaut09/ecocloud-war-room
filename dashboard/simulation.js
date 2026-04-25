@@ -403,7 +403,7 @@ async function startSimulation() {
     $('statusText').textContent = 'Running';
     $('chatStatus').textContent = 'Agents deliberating...';
 
-    const seed = parseInt($('seedInput').value) || 1;
+    const seed = Math.floor(Math.random() * 999) + 1;
     env = new EcoCloudEnvironment();
     let obs = env.reset(seed);
     stepHistory = [];

@@ -131,8 +131,8 @@ Given a crisis state: `latency=280ms, cost=$620/hr, carbon=380` (all above targe
 | Action | Latency Effect | Cost Effect | Carbon Effect | Worst Metric Bonus | **Total Reward** |
 |--------|---------------|-------------|---------------|-------------------|-----------------|
 | `optimize_energy` | +10 → -0.5 | -20 → +2.0 | -40 → +4.0 | ✅ +2.0 | **+7.5** |
-| `scale_down` | +25 → -1.25 | -35 → +3.5 | -15 → +1.5 | ❌ 0 | **+3.75** |
-| `migrate_region` | +15 → -0.75 | +10 → -0.5 | -50 → +5.0 | ✅ +2.0 | **+5.75** |
+| `scale_down` | +25 → -1.25 | -35 → +3.5 | -15 → +1.5 | ✅ +2.0 | **+5.75** |
+| `migrate_region` | +15 → -0.75 | +10 → -0.5 | -50 → +5.0 | ❌ 0 | **+3.75** |
 | `scale_up` | -40 → +4.0 | +30 → -1.5 | +20 → -1.0 | ❌ 0 | **+1.5** |
 
 The model learns from thousands of these comparisons that `optimize_energy` consistently scores highest when all metrics are above target — which is why GRPO training converged to this action as the dominant policy.

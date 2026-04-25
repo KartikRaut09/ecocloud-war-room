@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCloud War Room — Multi-Agent Cloud Crisis Simulator</title>
+    <meta name="description" content="Real-time visualization of a multi-agent cloud crisis simulator where three AI agents negotiate latency, cost, and carbon trade-offs under pressure.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Ambient background particles -->
+    <div class="ambient-bg" id="ambientBg"></div>
+
+    <!-- Crisis overlay flash -->
+    <div class="crisis-overlay" id="crisisOverlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" stroke="url(#logoGrad)" stroke-width="2.5"/>
+                        <path d="M10 18 L14 12 L18 16 L22 10" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="14" cy="12" r="2" fill="#00E5A0"/>
+                        <circle cx="22" cy="10" r="2" fill="#00B4D8"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+                                <stop offset="0%" stop-color="#00E5A0"/>
+                                <stop offset="100%" stop-color="#00B4D8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>EcoCloud <span class="accent">War Room</span></h1>
+                    <p class="subtitle">Multi-Agent Cloud Crisis Simulator</p>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="badge hackathon-badge">
+                <span class="badge-dot"></span>
+                Meta PyTorch OpenEnv Hackathon
+            </div>
+            <div class="badge status-badge" id="statusBadge">
+                <span class="badge-dot idle"></span>
+                <span id="statusText">Ready</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-grid">
+        <!-- Left Column: Metrics & Charts -->
+        <section class="col-left">
+            <!-- Live Metrics Cards -->
+            <div class="metrics-row">
+                <div class="metric-card" id="latencyCard">
+                    <div class="metric-header">
+                        <span class="metric-icon latency-icon">⚡</span>
+                        <span class="metric-label">Latency</span>
+                        <span class="metric-target">Target: &lt;150ms</span>
+                    </div>
+                    <div class="metric-value-row">
+                        <span class="metric-value" id="latencyValue">280.0</span>
+                        <span class="metric-unit">ms</span>
+                    </div>
+                    <div class="metric-bar-track">
+                        <div class="metric-bar latency-bar" id="latencyBar" style="width: 70%"></div>
+                    </div>
+                    <div class="metric-delta" id="latencyDelta"></div>
+                </div>
+
+                <div class="metric-card" id="costCard">
+                    <div class="metric-header">
+                        <span class="metric-icon cost-icon">💰</span>
+                        <span class="metric-label">Cost</span>
+                        <span class="metric-target">Target: &lt;$400</span>
+                    </div>
+                    <div class="metric-value-row">
+                        <span class="metric-value" id="costValue">620.0</span>
+                        <span class="metric-unit">$/hr</span>
+                    </div>
+                    <div class="metric-bar-track">
+                        <div class="metric-bar cost-bar" id="costBar" style="width: 77.5%"></div>
+                    </div>
+                    <div class="metric-delta" id="costDelta"></div>
+                </div>
+
+                <div class="metric-card" id="carbonCard">
+                    <div class="metric-header">
+                        <span class="metric-icon carbon-icon">🌿</span>
+                        <span class="metric-label">Carbon</span>
+                        <span class="metric-target">Target: &lt;220 units</span>
+                    </div>
+                    <div class="metric-value-row">
+                        <span class="metric-value" id="carbonValue">380.0</span>
+                        <span class="metric-unit">CO₂</span>
+                    </div>
+                    <div class="metric-bar-track">
+                        <div class="metric-bar carbon-bar" id="carbonBar" style="width: 63.3%"></div>
+                    </div>
+                    <div class="metric-delta" id="carbonDelta"></div>
+                </div>
+            </div>
+
+            <!-- Charts Panel -->
+            <div class="panel chart-panel">
+                <div class="panel-header">
+                    <h2>📊 Real-Time Metrics</h2>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-dot latency-dot"></span>Latency</span>
+                        <span class="legend-item"><span class="legend-dot cost-dot"></span>Cost</span>
+                        <span class="legend-item"><span class="legend-dot carbon-dot"></span>Carbon</span>
+                        <span class="legend-item"><span class="legend-dot reward-dot"></span>Reward</span>
+                    </div>
+                </div>
+                <canvas id="metricsChart" width="800" height="280"></canvas>
+            </div>
+
+            <!-- Reward Tracker -->
+            <div class="panel reward-panel">
+                <div class="panel-header">
+                    <h2>🎯 Episode Progress</h2>
+                    <div class="episode-stats">
+                        <span class="stat">Step: <strong id="stepCount">0</strong>/30</span>
+                        <span class="stat">Reward: <strong id="totalReward">0.0</strong></span>
+                        <span class="stat">Stable: <strong id="stableSteps">0</strong></span>
+                        <span class="stat" id="loadBadge">Load: <strong id="loadLevel">critical</strong></span>
+                    </div>
+                </div>
+                <div class="step-progress-track">
+                    <div class="step-progress-bar" id="stepProgressBar" style="width: 0%"></div>
+                    <div class="step-markers" id="stepMarkers"></div>
+                </div>
+                <div class="success-indicator" id="successIndicator">
+                    <span class="success-icon" id="successIcon">❌</span>
+                    <span class="success-text" id="successText">Not yet meeting all targets</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Boardroom & Controls -->
+        <section class="col-right">
+            <!-- Controls -->
+            <div class="panel controls-panel">
+                <div class="panel-header">
+                    <h2>🎮 Simulation Controls</h2>
+                </div>
+                <div class="controls-row">
+                    <button class="btn btn-primary" id="btnRun" onclick="startSimulation()">
+                        <span class="btn-icon">▶</span> Run Episode
+                    </button>
+                    <button class="btn btn-secondary" id="btnReset" onclick="resetSimulation()">
+                        <span class="btn-icon">↺</span> Reset
+                    </button>
+                    <div class="speed-control">
+                        <label>Speed</label>
+                        <input type="range" id="speedSlider" min="1" max="10" value="5" oninput="updateSpeed(this.value)">
+                        <span id="speedLabel">1.0x</span>
+                    </div>
+                </div>
+                <div class="controls-row">
+                    <div class="mode-selector">
+                        <label>Policy Mode</label>
+                        <div class="mode-buttons">
+                            <button class="mode-btn active" id="modeHeuristic" onclick="setMode('heuristic')">Heuristic</button>
+                            <button class="mode-btn" id="modeTrained" onclick="setMode('trained')">Q-Trained</button>
+                        </div>
+                    </div>
+                    <div class="seed-control">
+                        <label>Seed</label>
+                        <input type="number" id="seedInput" value="1" min="1" max="999">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boardroom Chat -->
+            <div class="panel boardroom-panel">
+                <div class="panel-header">
+                    <h2>🏛️ Boardroom Negotiation</h2>
+                    <span class="chat-status" id="chatStatus">Waiting for simulation...</span>
+                </div>
+                <div class="chat-container" id="chatContainer">
+                    <div class="chat-welcome">
+                        <div class="welcome-icon">🏛️</div>
+                        <p>The boardroom is ready.</p>
+                        <p class="welcome-sub">Three agents will negotiate each action: <strong>ResourceAgent</strong> (latency), <strong>CostAgent</strong> (spending), and <strong>SustainabilityAgent</strong> (carbon).</p>
+                        <p class="welcome-sub">Press <strong>Run Episode</strong> to begin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action History -->
+            <div class="panel history-panel">
+                <div class="panel-header">
+                    <h2>📋 Action Timeline</h2>
+                </div>
+                <div class="timeline-container" id="timelineContainer">
+                    <div class="timeline-empty">Actions will appear here during simulation</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-left">
+            <span>Built for <strong>Meta PyTorch OpenEnv Hackathon Grand Finale</strong></span>
+        </div>
+        <div class="footer-right">
+            <span>Themes: Multi-Agent Interactions • Long-Horizon Planning • World Modeling</span>
+        </div>
+    </footer>
+
+    <script src="simulation.js"></script>
+</body>
+</html>

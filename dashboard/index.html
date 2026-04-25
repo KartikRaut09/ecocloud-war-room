@@ -170,11 +170,18 @@
                         <div class="mode-buttons">
                             <button class="mode-btn active" id="modeHeuristic" onclick="setMode('heuristic')">Heuristic</button>
                             <button class="mode-btn" id="modeTrained" onclick="setMode('trained')">Q-Trained</button>
+                            <button class="mode-btn" id="modeLlm" onclick="setMode('llm')">LLM (GRPO)</button>
                         </div>
                     </div>
                     <div class="seed-control">
                         <label>Seed</label>
                         <input type="number" id="seedInput" value="1" min="1" max="999">
+                    </div>
+                </div>
+                <div class="controls-row" id="hfTokenRow" style="display:none">
+                    <div class="mode-selector" style="flex:1">
+                        <label>HuggingFace API Token</label>
+                        <input type="password" id="hfTokenInput" placeholder="hf_..." style="width:100%;padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px">
                     </div>
                 </div>
             </div>

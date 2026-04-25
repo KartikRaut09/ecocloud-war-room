@@ -261,6 +261,7 @@ requirements.txt         # Project dependencies
 ## 🔗 Links
 
 - **Visual Dashboard:** Open `dashboard/index.html` locally
+- **Trained Model:** [kartikraut09/ecocloud-grpo-qwen](https://huggingface.co/kartikraut09/ecocloud-grpo-qwen) on HuggingFace Hub
 - **Training Notebook:** `notebooks/EcoCloud_TRL_GRPO_Colab.ipynb`
 
 ---

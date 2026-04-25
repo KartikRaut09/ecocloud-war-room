@@ -420,7 +420,20 @@ async function startSimulation() {
     $('chatContainer').innerHTML = '';
     $('timelineContainer').innerHTML = '';
 
-    addChatMessage(0, [{ agent: 'System', text: `Episode started (seed=${seed}, mode=${currentMode}). Initial state: latency=${obs.latency.toFixed(0)}ms, cost=$${obs.cost.toFixed(0)}, carbon=${obs.carbon.toFixed(0)}`, type: 'decision' }]);
+    // Show initial state and agent assessments
+    const initResource = new ResourceAgent();
+    const initCost = new CostAgent();
+    const initSustainability = new SustainabilityAgent();
+    const [irAction, irReason] = initResource.propose(obs, null);
+    const [icAction, icReason] = initCost.propose(obs, null);
+    const [isAction, isReason] = initSustainability.propose(obs);
+
+    addChatMessage(0, [
+        { agent: 'System', text: `Episode started (mode: ${currentMode}). Initial state: latency=${obs.latency.toFixed(0)}ms, cost=$${obs.cost.toFixed(0)}/hr, carbon=${obs.carbon.toFixed(0)}`, type: 'decision' },
+        { agent: 'Resource', text: `${irAction} — ${irReason}`, type: 'resource' },
+        { agent: 'Cost', text: `${icAction} — ${icReason}`, type: 'cost' },
+        { agent: 'Sustainability', text: `${isAction} — ${isReason}`, type: 'sustainability' },
+    ]);
 
     let lastObs = null;
     const recentActions = [];

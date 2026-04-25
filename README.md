@@ -108,6 +108,8 @@ We fine-tuned **Qwen2.5-0.5B-Instruct** using TRL's Group Relative Policy Optimi
 | **Random Baseline** | 4.6 | — |
 | **GRPO Trained** | 6.8 | **+2.2 (+48%)** |
 
+![GRPO Training Evidence](training/trl_training_evidence.png)
+
 The model learned that `optimize_energy` is the dominant action for most crisis states — it reduces both cost (-20) and carbon (-40), the two hardest metrics to control. This matches the theoretical optimal policy for the environment.
 
 #### Shaped Reward Function

@@ -9,10 +9,11 @@ class SeededRNG {
 
 // --- Environment (faithful port of environment.py) ---
 class EcoCloudEnvironment {
-    constructor() { this.rng = new SeededRNG(); this.state = null; }
+    constructor() { this.rng = new SeededRNG(); this.state = null; this.nextCrisis = 7; }
 
     reset(seed = 1) {
         this.rng = new SeededRNG(seed);
+        this.nextCrisis = 7 + Math.floor(this.rng.uniform(-2, 3));
         this.state = { latency: 280, cost: 620, carbon: 380, load: 'critical', step_count: 0, stable_steps: 0, crisis_just_happened: false, last_action: '' };
         return this._makeObs(0, false);
     }
@@ -35,9 +36,10 @@ class EcoCloudEnvironment {
         else { /* migrate_region */ s.carbon -= this.rng.uniform(40,70); s.latency += this.rng.uniform(10,25); s.cost += this.rng.uniform(5,20); }
 
         s.step_count++;
-        if (s.step_count % 9 === 0) {
+        if (s.step_count >= this.nextCrisis) {
             s.latency += this.rng.uniform(35,65); s.cost += this.rng.uniform(10,25); s.carbon += this.rng.uniform(15,30);
             s.crisis_just_happened = true;
+            this.nextCrisis = s.step_count + 7 + Math.floor(this.rng.uniform(-2, 3));
         }
 
         s.latency = Math.min(Math.max(s.latency,50),400);

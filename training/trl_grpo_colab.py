@@ -19,7 +19,7 @@ from trl import GRPOConfig, GRPOTrainer
 
 MODEL_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
 OUTPUT_DIR = "outputs/ecocloud-grpo"
-TRAIN_PROMPTS = 256
+TRAIN_PROMPTS = 512
 
 # ── Action definitions with per-metric effects ──────────────────────────
 ACTIONS = {

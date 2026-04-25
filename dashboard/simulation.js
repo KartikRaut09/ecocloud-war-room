@@ -557,6 +557,14 @@ function computeShapedReward(actionName, state) {
 async function getLlmAction(obs) {
     const state = { latency: obs.latency, cost: obs.cost, carbon: obs.carbon };
 
+    // Show agent proposals (same logic as heuristic agents)
+    const resource = new ResourceAgent();
+    const cost = new CostAgent();
+    const sustainability = new SustainabilityAgent();
+    const [rAction, rReason] = resource.propose(obs, null);
+    const [cAction, cReason] = cost.propose(obs, null);
+    const [sAction, sReason] = sustainability.propose(obs);
+
     // Score all actions using the shaped reward (same logic the LLM learned via GRPO)
     const scores = {};
     for (const action of Object.keys(LLM_ACTIONS)) {
@@ -573,8 +581,11 @@ async function getLlmAction(obs) {
         .join(', ');
 
     const log = [
-        { agent: 'LLM (GRPO)', text: `Shaped reward scores → ${scoreStr}`, type: 'resource' },
-        { agent: 'LLM (GRPO)', text: `Selected: ${bestAction} (reward: ${bestScore.toFixed(1)})`, type: 'sustainability' }
+        { agent: 'Resource', text: `${rAction} — ${rReason}`, type: 'resource' },
+        { agent: 'Cost', text: `${cAction} — ${cReason}`, type: 'cost' },
+        { agent: 'Sustainability', text: `${sAction} — ${sReason}`, type: 'sustainability' },
+        { agent: 'LLM (GRPO)', text: `Reward scores → ${scoreStr}`, type: 'decision' },
+        { agent: 'LLM (GRPO)', text: `Decision: ${bestAction} (reward: ${bestScore.toFixed(1)})`, type: 'decision' }
     ];
 
     return { action: bestAction, log };

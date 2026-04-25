@@ -192,7 +192,7 @@ def main() -> None:
             output_dir=OUTPUT_DIR,
             per_device_train_batch_size=1,
             gradient_accumulation_steps=4,
-            num_generations=8,          # more generations = more diversity
+            num_generations=4,          # must divide batch size
             max_completion_length=32,   # short — we only need 1-2 tokens
             learning_rate=5e-6,
             logging_steps=5,

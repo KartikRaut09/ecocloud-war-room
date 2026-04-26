@@ -1,4 +1,4 @@
-/* CloudEdge — Dashboard Simulation Engine */
+/* EcoCloud War Room — Dashboard Simulation Engine */
 
 // --- Seeded RNG ---
 class SeededRNG {
@@ -218,13 +218,13 @@ function updateMetricCard(id, value, target, prevValue) {
     barEl.style.width = pct + '%';
 
     const met = id === 'latency' ? value < 150 : id === 'cost' ? value < 400 : value < 220;
-    cardEl.className = 'metric-card' + (met ? ' target-met' : ' target-missed');
+    if (met) { cardEl.classList.remove('border-crisis/20'); cardEl.classList.add('border-success/30', 'shadow-[0_0_20px_rgba(42,157,153,0.05)]'); } else { cardEl.classList.remove('border-success/30', 'shadow-[0_0_20px_rgba(42,157,153,0.05)]'); cardEl.classList.add('border-crisis/20'); }
 
     if (prevValue !== undefined) {
         const diff = value - prevValue;
         const isGood = diff < 0;
         deltaEl.textContent = (diff >= 0 ? '+' : '') + diff.toFixed(1);
-        deltaEl.className = 'metric-delta ' + (Math.abs(diff) < 0.5 ? 'neutral' : isGood ? 'negative' : 'positive');
+        deltaEl.className = 'text-sm font-medium min-h-[18px] ' + (Math.abs(diff) < 0.5 ? 'text-muted' : isGood ? 'text-success' : 'text-crisis');
     }
 }
 
@@ -235,15 +235,14 @@ function updateEpisodeStats(obs) {
     $('loadLevel').textContent = obs.load;
     $('stepProgressBar').style.width = (obs.step_count / 30 * 100) + '%';
 
-    const loadBadge = $('loadBadge');
-    loadBadge.className = 'stat load-' + obs.load;
+    const levelColor = obs.load === 'critical' ? 'text-crisis' : obs.load === 'high' ? 'text-warning' : obs.load === 'medium' ? 'text-accent' : 'text-success'; $('loadLevel').className = levelColor;
 
     if (obs.success) {
-        $('successIndicator').className = 'success-indicator met';
+        $('successIndicator').className = 'flex items-center gap-2 text-[13px] sm:text-[14px] font-medium pt-4 mt-2 border-t border-success/30 bg-success/5 text-success rounded-lg p-3';
         $('successIcon').textContent = '✅';
         $('successText').textContent = 'All targets met! System stable.';
     } else {
-        $('successIndicator').className = 'success-indicator';
+        $('successIndicator').className = 'flex items-center gap-2 text-[13px] sm:text-[14px] font-medium text-secondary border-t border-light pt-4 mt-2';
         $('successIcon').textContent = '❌';
         const missing = [];
         if (obs.latency >= 150) missing.push('latency');
@@ -258,17 +257,16 @@ function addChatMessage(stepNum, messages) {
     if (container.querySelector('.chat-welcome')) container.innerHTML = '';
 
     const group = document.createElement('div');
-    group.className = 'chat-step-group';
+    group.className = 'mb-4 animate-[fadeInUp_0.3s_ease]';
 
     const label = document.createElement('div');
-    label.className = 'chat-step-label';
+    label.className = 'text-[10px] font-mono text-muted mb-1 pl-1';
     label.textContent = `Step ${stepNum}`;
     group.appendChild(label);
 
     for (const msg of messages) {
         const div = document.createElement('div');
-        div.className = 'chat-message ' + msg.type;
-        div.innerHTML = `<span class="chat-agent-name">${msg.agent}</span><span class="chat-text">${msg.text}</span>`;
+        div.className = 'flex gap-2 p-2.5 rounded-md mb-[3px] bg-white/[0.02] border-l-2 transition-colors ' + (msg.type === 'decision' ? 'border-accent bg-accent/5' : msg.type === 'crisis' ? 'border-crisis bg-crisis/5' : 'border-transparent'); div.innerHTML = `<span class=\"font-mono text-[11px] font-bold opacity-80 min-w-[90px]\">${msg.agent}</span><span class=\"text-[13px] opacity-90\">${msg.text}</span>`;
         group.appendChild(div);
     }
     container.appendChild(group);
@@ -280,12 +278,12 @@ function addTimelineItem(step, actionName, reward) {
     if (container.querySelector('.timeline-empty')) container.innerHTML = '';
 
     const item = document.createElement('div');
-    item.className = 'timeline-item';
-    const rClass = reward >= 0 ? 'positive' : 'negative';
+    item.className = 'flex items-center justify-between p-3 mb-2 rounded-lg bg-surface-alt border border-light text-sm';
+    const rClass = reward >= 0 ? 'text-success' : 'text-crisis';
     item.innerHTML = `
-        <span class="timeline-step">${step}</span>
-        <span class="timeline-action ${actionName}">${actionName}</span>
-        <span class="timeline-reward ${rClass}">${reward >= 0 ? '+' : ''}${reward.toFixed(1)}</span>
+        <span class="font-mono text-muted text-xs">Step ${step}</span>
+        <span class="font-semibold text-primary">${actionName}</span>
+        <span class="font-mono font-bold ${rClass}">${reward >= 0 ? '+' : ''}${reward.toFixed(1)}</span>
     `;
     container.prepend(item);
 }
@@ -296,14 +294,19 @@ function triggerCrisisEffect() {
     void overlay.offsetWidth;
     overlay.classList.add('active');
 
-    const badge = $('statusBadge').querySelector('.badge-dot');
-    badge.className = 'badge-dot crisis';
-    setTimeout(() => { if (simRunning) badge.className = 'badge-dot running'; }, 1500);
+    const statusObj = $('statusBadge');
+    if (statusObj) {
+        const badge = statusObj.querySelector('.badge-dot');
+        if (badge) {
+            badge.className = 'w-1.5 h-1.5 rounded-full bg-crisis animate-pulse';
+            setTimeout(() => { if (simRunning) badge.className = 'w-1.5 h-1.5 rounded-full bg-accent'; }, 1500);
+        }
+    }
 
     const container = $('chatContainer');
     const crisisMsg = document.createElement('div');
     crisisMsg.className = 'chat-step-group';
-    crisisMsg.innerHTML = `<div class="chat-message crisis"><span class="chat-agent-name">⚡ CRISIS</span><span class="chat-text">Traffic spike detected! System destabilized — latency, cost, and carbon surging.</span></div>`;
+    crisisMsg.innerHTML = `<div class=\"flex gap-2 p-2.5 rounded-md mb-[3px] border-l-2 border-crisis bg-crisis/10\"><span class=\"font-mono text-[11px] font-bold text-crisis min-w-[90px]\">⚡ CRISIS</span><span class=\"text-[13px] text-crisis\">Traffic spike detected! System destabilized — latency, cost, and carbon surging.</span></div>`;
     container.appendChild(crisisMsg);
     container.scrollTop = container.scrollHeight;
 }
@@ -399,8 +402,8 @@ async function startSimulation() {
     if (simRunning) return;
     simRunning = true;
     $('btnRun').disabled = true;
-    $('statusBadge').querySelector('.badge-dot').className = 'badge-dot running';
-    $('statusText').textContent = 'Running';
+    if ($('statusBadge')) if ($('statusBadge')) $('statusBadge').querySelector('.badge-dot').className = 'w-1.5 h-1.5 rounded-full bg-accent animate-pulse';
+    if ($('statusText')) $('statusText').textContent = 'Running';
     $('chatStatus').textContent = 'Agents deliberating...';
 
     const seed = Math.floor(Math.random() * 999) + 1;
@@ -478,9 +481,8 @@ async function startSimulation() {
 
     simRunning = false;
     $('btnRun').disabled = false;
-    const dotClass = obs.success ? 'success' : 'idle';
-    $('statusBadge').querySelector('.badge-dot').className = 'badge-dot ' + dotClass;
-    $('statusText').textContent = obs.success ? 'Success!' : 'Episode Complete';
+    if ($('statusBadge')) $('statusBadge').querySelector('.badge-dot').className = 'w-1.5 h-1.5 rounded-full ' + (obs.success ? 'bg-success' : 'bg-muted');
+    if ($('statusText')) $('statusText').textContent = obs.success ? 'Success!' : 'Episode Complete';
     $('chatStatus').textContent = `Episode finished — Total reward: ${totalRewardAccum.toFixed(1)}`;
 
     addChatMessage('End', [{ agent: 'System', text: `Episode complete. Final: latency=${obs.latency.toFixed(1)}ms, cost=$${obs.cost.toFixed(1)}, carbon=${obs.carbon.toFixed(1)} | Total reward: ${totalRewardAccum.toFixed(1)} | Success: ${obs.success}`, type: obs.success ? 'sustainability' : 'crisis' }]);
@@ -489,11 +491,11 @@ async function startSimulation() {
 function resetSimulation() {
     simRunning = false;
     $('btnRun').disabled = false;
-    $('statusBadge').querySelector('.badge-dot').className = 'badge-dot idle';
-    $('statusText').textContent = 'Ready';
+    if ($('statusBadge')) $('statusBadge').querySelector('.badge-dot').className = 'w-1.5 h-1.5 rounded-full bg-muted';
+    if ($('statusText')) $('statusText').textContent = 'Ready';
     $('chatStatus').textContent = 'Waiting for simulation...';
-    $('chatContainer').innerHTML = `<div class="chat-welcome"><div class="welcome-icon">🏛️</div><p>The boardroom is ready.</p><p class="welcome-sub">Press <strong>Run Episode</strong> to begin.</p></div>`;
-    $('timelineContainer').innerHTML = '<div class="timeline-empty">Actions will appear here during simulation</div>';
+    $('chatContainer').innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center p-8 opacity-50"><div class="text-4xl mb-4">🏛️</div><p class="font-semibold text-primary mb-1">The boardroom is ready.</p><p class="text-sm text-secondary">Press Run to begin.</p></div>`;
+    $('timelineContainer').innerHTML = '<div class=\"text-sm text-muted italic text-center py-8\">Actions will appear here during simulation</div>';
     chartData.latency = []; chartData.cost = []; chartData.carbon = []; chartData.reward = [];
     totalRewardAccum = 0;
 
@@ -504,7 +506,7 @@ function resetSimulation() {
     $('latencyDelta').textContent = ''; $('costDelta').textContent = ''; $('carbonDelta').textContent = '';
     updateEpisodeStats(initState);
     $('stepProgressBar').style.width = '0%';
-    $('successIndicator').className = 'success-indicator';
+    $('successIndicator').className = 'flex items-center gap-2 text-[13px] sm:text-[14px] font-medium text-secondary border-t border-light pt-4 mt-2';
     $('successIcon').textContent = '❌';
     $('successText').textContent = 'Not yet meeting all targets';
 

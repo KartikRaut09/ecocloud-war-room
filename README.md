@@ -19,6 +19,9 @@ Built for the **Meta PyTorch OpenEnv Hackathon Grand Finale**.
 [![Python](https://img.shields.io/badge/Python-3.10+-green)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
+**🚀 Live Environment (Hugging Face Space):** [kartikraut09/cloudedge](https://huggingface.co/spaces/kartikraut09/cloudedge)
+**📝 Read the Blog Post:** [Blog.md](Blog.md)
+
 ---
 
 ## 🎯 The Problem

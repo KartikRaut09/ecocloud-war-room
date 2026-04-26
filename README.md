@@ -83,10 +83,10 @@ We fine-tuned **Qwen2.5-0.5B-Instruct** using TRL's **Group Relative Policy Opti
 Below are the local simulation graphs demonstrating the agent's ability to maintain stable state across multi-step episodes compared to a random baseline.
 
 **Baseline vs. Trained Performance:**
-![Baseline vs Trained](ecocloud_env/graphs/graph2_baseline_vs_trained_20260425_194631.png)
+![Baseline vs Trained](cloudedge_env/graphs/graph2_baseline_vs_trained_20260425_194631.png)
 
-**Crisis Recovery Tracking:**
-![Recovery Tracking](ecocloud_env/graphs/graph4_recovery_tracking_20260425_194631.png)
+### Incident Recovery
+![Recovery Tracking](cloudedge_env/graphs/graph4_recovery_tracking_20260425_194631.png)
 
 ### Anti-Reward-Hacking Measures
 
@@ -148,7 +148,7 @@ requirements.txt         # Project dependencies
 pip install -r requirements.txt
 
 # 2. Start the OpenEnv API server & Visual Dashboard
-uvicorn ecocloud_env.server.app:app --host 0.0.0.0 --port 7860
+uvicorn cloudedge_env.server.app:app --host 0.0.0.0 --port 7860
 # (Then open http://localhost:7860 in your browser)
 
 # 3. Run a local simulation episode (Auto-detects trained policy)
@@ -159,9 +159,10 @@ python run_local.py heuristic   # Runs the baseline
 python run_local.py trained     # Runs the trained Q-policy
 
 # 5. Re-run local training & generate new graphs
-python ecocloud_env/visualize.py
+python cloudedge_env/visualize.py
 ```
 
+- **YouTube Demo Video:** [Watch on YouTube](https://youtu.be/_wTe7kmyAZg)
 - **Hugging Face Space:** [kartikraut09/cloudedge](https://huggingface.co/spaces/kartikraut09/cloudedge)
 - **Trained Model:** [kartikraut09/ecocloud-grpo-qwen](https://huggingface.co/kartikraut09/ecocloud-grpo-qwen)
 - **Training Notebook:** `notebooks/EcoCloud_TRL_GRPO_Colab.ipynb`

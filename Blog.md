@@ -61,6 +61,7 @@ We have seen countless grid-world and board-game environments. But CloudEdge pus
 
 ---
 **References & Links:**
+* **YouTube Demo Video:** [Watch on YouTube](https://youtu.be/_wTe7kmyAZg)
 * **Hugging Face Space (Live Demo):** [kartikraut09/cloudedge](https://huggingface.co/spaces/kartikraut09/cloudedge)
-* **GitHub Repository:** [KartikRaut09/ecocloud-war-room](https://github.com/KartikRaut09/ecocloud-war-room)
+* **GitHub Repository:** [KartikRaut09/cloudedge](https://github.com/KartikRaut09/cloudedge)
 * **Training Notebook:** Available in the repository under `notebooks/EcoCloud_TRL_GRPO_Colab.ipynb`

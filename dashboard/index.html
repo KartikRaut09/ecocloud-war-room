@@ -221,10 +221,10 @@
                     <div class="flex flex-col sm:flex-row gap-3 mt-1">
                         <div class="flex-1 bg-background p-3 sm:p-3.5 rounded-xl border border-light flex flex-col gap-2.5">   
                             <label class="text-[11px] sm:text-[12px] font-semibold text-secondary tracking-badge uppercase">Policy Mode</label>
-                            <div class="flex flex-col sm:flex-row gap-1.5 bg-white/[0.03] p-1 rounded">
-                                <button id="modeHeuristic" onclick="setMode('heuristic')" class="flex-1 bg-surface border border-light text-primary text-[12px] sm:text-[13px] font-semibold py-1.5 px-2 rounded transition-colors text-center shadow-sm">Heuristic</button>
-                                <button id="modeTrained" onclick="setMode('trained')" class="flex-1 bg-transparent border border-transparent text-secondary hover:text-primary text-[12px] sm:text-[13px] font-medium py-1.5 px-2 rounded transition-colors text-center">Q-Trained</button>
-                                <button id="modeLlm" onclick="setMode('llm')" class="flex-1 bg-transparent border border-transparent text-secondary hover:text-primary text-[12px] sm:text-[13px] font-medium py-1.5 px-2 rounded transition-colors text-center">LLM (GRPO)</button>
+                            <div class="flex flex-col gap-1.5 bg-white/[0.03] p-1 rounded">
+                                <button id="modeHeuristic" onclick="setMode('heuristic')" class="w-full bg-surface border border-light text-primary text-[12px] sm:text-[13px] font-semibold py-1.5 px-2 rounded transition-colors text-center shadow-sm">Heuristic</button>
+                                <button id="modeTrained" onclick="setMode('trained')" class="w-full bg-transparent border border-transparent text-secondary hover:text-primary text-[12px] sm:text-[13px] font-medium py-1.5 px-2 rounded transition-colors text-center">Q-Trained</button>
+                                <button id="modeLlm" onclick="setMode('llm')" class="w-full bg-transparent border border-transparent text-secondary hover:text-primary text-[12px] sm:text-[13px] font-medium py-1.5 px-2 rounded transition-colors text-center">LLM (GRPO)</button>
                             </div>
                         </div>
                     </div>
@@ -235,7 +235,6 @@
             <div class="bg-surface rounded-xl border border-light shadow-card flex flex-col overflow-hidden h-[400px] xl:h-[450px]">
                 <div class="px-5 sm:px-6 py-4 sm:py-5 border-b border-light flex items-center justify-between bg-surface z-10 shrink-0">
                     <h2 class="text-lg font-bold tracking-card text-primary leading-[1.27]">Boardroom</h2>
-                    <span id="chatStatus" class="text-[11px] sm:text-[12px] font-medium text-secondary px-2 py-1 bg-background rounded">Waiting...</span>
                 </div>
                 
                 <div id="chatContainer" class="flex-1 overflow-y-auto p-4 sm:p-6 bg-background flex flex-col gap-4">
@@ -246,11 +245,15 @@
                         <p class="text-[13px] sm:text-[14px] text-secondary font-semibold mt-2">Press<span class="text-white"> RUN</span> Episode to begin.</p>
                     </div>
                 </div>
+                
+                <div class="border-t border-light bg-surface z-10 shrink-0 p-3 sm:p-4 flex justify-center items-center">
+                    <span id="chatStatus" class="text-[12px] sm:text-[13px] font-medium text-secondary">Waiting...</span>
+                </div>
             </div>
 
             <!-- Action History -->
-            <div class="bg-surface rounded-xl border border-light shadow-card p-5 xl:p-6 flex-1 min-h-[250px] xl:min-h-[300px] flex flex-col">
-                <h2 class="text-[20px] sm:text-[22px] font-bold tracking-card text-primary leading-[1.27] mb-5">📋 Action Timeline</h2>
+            <div class="bg-surface rounded-xl border border-light shadow-card p-5 xl:p-6 flex flex-col overflow-hidden h-[300px] xl:h-[350px]">
+                <h2 class="text-[20px] sm:text-[22px] font-bold tracking-card text-primary leading-[1.27] mb-4 shrink-0">Action Timeline</h2>
                 <div id="timelineContainer" class="flex-1 overflow-y-auto pr-2 flex flex-col gap-3">
                     <div class="text-[13px] sm:text-[14px] text-muted italic text-center py-6 sm:py-8">Actions will appear here during simulation</div>
                 </div>
@@ -277,6 +280,7 @@
     <!-- Scripts -->
     <!-- Include chart.js configuration adjustments for dark mode if applicable -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="simulation.js"></script>
     <script>
         // Set Chart.js global defaults for dark mode readability
         Chart.defaults.color = 'rgba(255,255,255,0.6)';
@@ -298,13 +302,15 @@
                  const btn = document.getElementById(btnIds[m]);
                  if (!btn) return;
                  if (m === mode) {
-                     btn.className = "flex-1 bg-surface border border-light text-primary text-[12px] sm:text-[13px] font-semibold py-1.5 px-2 rounded transition-colors text-center shadow-sm";
+                     btn.className = "w-full bg-surface border border-light text-primary text-[12px] sm:text-[13px] font-semibold py-1.5 px-2 rounded transition-colors text-center shadow-sm";
                  } else {
-                     btn.className = "flex-1 bg-transparent border border-transparent text-secondary hover:text-primary text-[12px] sm:text-[13px] font-medium py-1.5 px-2 rounded transition-colors text-center";
+                     btn.className = "w-full bg-transparent border border-transparent text-secondary hover:text-primary text-[12px] sm:text-[13px] font-medium py-1.5 px-2 rounded transition-colors text-center";
                  }
              });
         }
+        
+        // Ensure buttons sync with the default mode on load
+        window.setMode(currentMode || 'heuristic');
     </script>
-    <script src="simulation.js"></script>
 </body>
 </html>

@@ -314,6 +314,10 @@ function triggerCrisisEffect() {
 // --- Chart Drawing ---
 function drawChart() {
     const canvas = $('metricsChart');
+    if (canvas.parentElement) {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+    }
     const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
@@ -609,4 +613,8 @@ async function getLlmAction(obs) {
 // --- Init ---
 buildStepMarkers();
 
-
+window.addEventListener('resize', () => {
+    if (chartData.latency && chartData.latency.length > 0) {
+        drawChart();
+    }
+});

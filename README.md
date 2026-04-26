@@ -115,7 +115,7 @@ Given a crisis state: `latency=280ms, cost=$620/hr, carbon=380` (all above targe
 Blog.md                  # Detailed project write-up and training analysis
 Dockerfile               # HuggingFace Space deployment configuration
 openenv.yaml             # OpenEnv environment manifest
-ecocloud_env/
+cloudedge_env/
   models.py              # Pydantic v2 state, action, observation models
   agents.py              # ResourceAgent, CostAgent, SustainabilityAgent, Boardroom
   learner.py             # Q-learning controller + adaptive policy wrapper

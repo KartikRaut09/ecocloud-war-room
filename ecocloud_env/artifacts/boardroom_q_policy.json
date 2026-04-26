@@ -1,0 +1,232 @@
+{
+  "alpha": 0.22,
+  "gamma": 0.93,
+  "epsilon": 0.11793393801864926,
+  "epsilon_min": 0.08,
+  "epsilon_decay": 0.965,
+  "boardroom_bonus": 0.75,
+  "q_table": {
+    "elevated|high|high|recovering|steady": {
+      "scale_up": -1.0438286088628308,
+      "scale_down": 1.6833149987877807,
+      "optimize_energy": 8.327385043919675,
+      "migrate_region": 19.3764236249034
+    },
+    "elevated|target|high|recovering|steady": {
+      "scale_up": 6.394980246863375,
+      "scale_down": 0.024679431190371234,
+      "optimize_energy": 0.0,
+      "migrate_region": 43.00805086350937
+    },
+    "elevated|target|target|recovering|steady": {
+      "scale_up": 40.8321970122889,
+      "scale_down": 38.37135645479533,
+      "optimize_energy": 41.78532001802253,
+      "migrate_region": 36.69873750519299
+    },
+    "target|target|target|recovering|steady": {
+      "scale_up": 134.90032894382762,
+      "scale_down": 106.13312064575743,
+      "optimize_energy": 133.45798689186415,
+      "migrate_region": 90.49556268142588
+    },
+    "target|target|target|stable|steady": {
+      "scale_up": 159.87424030947477,
+      "scale_down": 127.54494100628006,
+      "optimize_energy": 146.1410289378749,
+      "migrate_region": 134.92513819306959
+    },
+    "elevated|target|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "target|target|target|stable|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|critical|critical|recovering|steady": {
+      "scale_up": -34.895996016588555,
+      "scale_down": -31.90036105468011,
+      "optimize_energy": -32.57911771495862,
+      "migrate_region": -32.815665950708734
+    },
+    "elevated|critical|critical|recovering|steady": {
+      "scale_up": -11.578593927935945,
+      "scale_down": -6.277129726842851,
+      "optimize_energy": -6.801203144474543,
+      "migrate_region": -7.742618783449949
+    },
+    "target|critical|critical|recovering|steady": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": -3.96
+    },
+    "elevated|critical|high|recovering|steady": {
+      "scale_up": -8.437460798949552,
+      "scale_down": -5.418932703806479,
+      "optimize_energy": 1.9350670634099236,
+      "migrate_region": -11.151230616294676
+    },
+    "target|critical|high|recovering|steady": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 2.723527366994666,
+      "migrate_region": 0.0
+    },
+    "target|critical|target|recovering|steady": {
+      "scale_up": 0.0,
+      "scale_down": 27.077908592069065,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "elevated|critical|target|recovering|steady": {
+      "scale_up": -2.2,
+      "scale_down": 17.02849963293794,
+      "optimize_energy": 32.35992503211549,
+      "migrate_region": 9.063154406808176
+    },
+    "elevated|high|target|recovering|steady": {
+      "scale_up": 35.73228072356134,
+      "scale_down": 44.62820136824534,
+      "optimize_energy": 33.243712184412466,
+      "migrate_region": 36.51281250975372
+    },
+    "target|high|target|recovering|steady": {
+      "scale_up": 58.31674517711416,
+      "scale_down": 73.43824051751463,
+      "optimize_energy": 61.65652423015687,
+      "migrate_region": 57.72386161385357
+    },
+    "critical|target|target|recovering|steady": {
+      "scale_up": 37.04173896001655,
+      "scale_down": 0.0,
+      "optimize_energy": 22.19965033301485,
+      "migrate_region": 29.62149308848434
+    },
+    "critical|target|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "target|high|high|recovering|steady": {
+      "scale_up": -0.88,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 3.82932241932877
+    },
+    "target|critical|high|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "target|high|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|high|high|recovering|steady": {
+      "scale_up": -21.894060342289382,
+      "scale_down": -12.952713758118957,
+      "optimize_energy": -20.097441395974123,
+      "migrate_region": -16.967505143004193
+    },
+    "critical|high|target|recovering|steady": {
+      "scale_up": 0.7862934149998779,
+      "scale_down": 25.74386987786066,
+      "optimize_energy": 12.566908387221606,
+      "migrate_region": 4.38218427664463
+    },
+    "critical|high|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|high|high|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "elevated|high|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|target|high|recovering|steady": {
+      "scale_up": -5.296494472925092,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 9.557166666374565
+    },
+    "elevated|high|critical|recovering|steady": {
+      "scale_up": -4.774037619545477,
+      "scale_down": 0.0,
+      "optimize_energy": 1.7180356981708993,
+      "migrate_region": -6.050860735058482
+    },
+    "target|target|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|critical|high|recovering|steady": {
+      "scale_up": -20.983095659561332,
+      "scale_down": -18.824520766509124,
+      "optimize_energy": -18.223468327320504,
+      "migrate_region": -20.24685642495309
+    },
+    "critical|critical|high|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|critical|target|recovering|steady": {
+      "scale_up": -7.975202395776,
+      "scale_down": 7.095949237540853,
+      "optimize_energy": 1.5806435632113411,
+      "migrate_region": -1.1753521835022338
+    },
+    "critical|critical|target|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "elevated|critical|critical|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|high|critical|recovering|steady": {
+      "scale_up": -21.89901522594696,
+      "scale_down": -18.037357740642243,
+      "optimize_energy": -19.652718450919505,
+      "migrate_region": -21.81603537356062
+    },
+    "critical|critical|critical|recovering|crisis": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    },
+    "critical|target|critical|recovering|steady": {
+      "scale_up": 0.0,
+      "scale_down": 0.0,
+      "optimize_energy": 0.0,
+      "migrate_region": 0.0
+    }
+  }
+}

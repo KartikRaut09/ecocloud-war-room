@@ -235,6 +235,9 @@ uvicorn ecocloud_env.server.app:app --host 0.0.0.0 --port 7860
 ## 📁 Project Structure
 
 ```
+Blog.md                  # Detailed project write-up and training analysis
+Dockerfile               # HuggingFace Space deployment configuration
+openenv.yaml             # OpenEnv environment manifest
 ecocloud_env/
   models.py              # Pydantic v2 state, action, observation models
   agents.py              # ResourceAgent, CostAgent, SustainabilityAgent, Boardroom
@@ -246,7 +249,6 @@ ecocloud_env/
   server/
     environment.py       # Core simulation engine (transitions, crises, rewards)
     app.py               # FastAPI / OpenEnv server
-    Dockerfile           # HuggingFace Space deployment
 dashboard/
   index.html             # Visual real-time dashboard
   style.css              # Premium dark theme
